@@ -1,0 +1,18 @@
+.loader {
+  border: 4px solid rgba(255, 255, 255, 0.3); /* Light border */
+  border-top: 4px solid #f8b6d8; /* Pink color for the top part of the spinner */
+  border-radius: 50%; /* Make it circular */
+  width: 24px; /* Set the width */
+  height: 24px; /* Set the height */
+  animation: spin 1s linear infinite; /* Animation to make it spin */
+}
+
+/* Keyframe for spinner rotation */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
