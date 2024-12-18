@@ -1,97 +1,201 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
-  }
-  
-  .juhu {
-    background-color: #1c1c24;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    padding: 20px;
-  }
-  
+/* CreateCampaign.css */
+:root {
+  --primary-color: #ec4899;
+  --primary-hover: #db2777;
+  --background-dark: #111827;
+  --input-background: #1f2937;
+  --text-light: #f3f4f6;
+  --text-gray: #9ca3af;
+  --error-color: #ef4444;
+  --success-color: #10b981;
+  --card-background: #1f2937;
+}
+
+/* Container Styles */
+.container {
+  min-height: 100vh;
+  padding: 2rem;
+  background-color: var(--background-dark);
+  color: var(--text-light);
+}
+
+/* Form Styles */
+.campaign-form {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.form-field {
+  margin-bottom: 1.5rem;
+}
+
+.form-field label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--primary-color);
+  font-weight: 500;
+}
+
+.form-field input,
+.form-field textarea,
+.form-field select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 2px solid transparent;
+  border-radius: 0.5rem;
+  background-color: var(--input-background);
+  color: var(--text-light);
+  transition: all 0.3s ease;
+}
+
+.form-field input:focus,
+.form-field textarea:focus,
+.form-field select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(236, 72, 153, 0.2);
+}
+
+/* Campaign Info Box */
+.campaign-info {
+  background-color: var(--card-background);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin: 1.5rem 0;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.campaign-info img {
+  width: 2rem;
+  height: 2rem;
+}
+
+/* Submit Button */
+.submit-btn button {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 0.75rem 2rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.submit-btn button:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-2px);
+}
+
+.submit-btn button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Loading Spinner */
+.loader {
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid var(--primary-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  max-width: 500px;
+  width: 90%;
+  text-align: center;
+}
+
+/* Alert Box Styles */
+.alert-box-container {
+  margin-top: 2rem;
+  padding: 1rem;
+  background-color: var(--card-background);
+  border-radius: 0.5rem;
+}
+
+.alert-box {
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+
+.alert-icon {
+  background-color: var(--primary-color);
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.alert-icon:hover {
+  transform: scale(1.1);
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
   .container {
-    background-color: #3a3a43;
-    border-radius: 10px;
-    padding: 20px;
-    width: 100%;
-    max-width: 500px;
+    padding: 1rem;
   }
-  
-  .header h1 {
-    color: white;
-    text-align: center;
-    font-size: 24px;
-    margin-bottom: 20px;
-  }
-  
+
   .campaign-form {
-    display: flex;
+    padding: 1rem;
+  }
+
+  .form-field input,
+  .form-field textarea,
+  .form-field select {
+    font-size: 0.9rem;
+  }
+
+  .alert-box-container {
     flex-direction: column;
-    gap: 20px;
+    gap: 1rem;
   }
-  
-  .form-group {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-  }
-  
-  .form-field {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  label {
-    color: white;
-    margin-bottom: 5px;
-  }
-  
-  input, textarea {
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-  }
-  
-  textarea {
-    resize: none;
-    height: 100px;
-  }
-  
-  .campaign-info {
-    background-color: #8c6dfd;
-    padding: 20px;
-    display: flex;
-    align-items: center;
-    border-radius: 10px;
-    color: white;
-  }
-  
-  .campaign-info .icon {
-    width: 40px;
-    height: 40px;
-    margin-right: 20px;
-  }
-  
-  .submit-btn {
-    text-align: center;
-  }
-  
-  .submit-btn button {
-    background-color: #1dc071;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .submit-btn button:hover {
-    background-color: #17a057;
-  }
-  
+}
+
+/* Success Message Styles */
+.success-message {
+  background-color: var(--success-color);
+  color: white;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+/* Error Message Styles */
+.error-message {
+  color: var(--error-color);
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
