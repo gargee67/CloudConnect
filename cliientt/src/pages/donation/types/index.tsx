@@ -12,7 +12,7 @@ export type Campaign = {
     donors: string[]; // Array of donor addresses
     donations: number[]; // Array of donation amounts in ETH  */
     id: string;
-    //owner:String;
+    owner:String;
     title: string;
     description: string;
     targetAmount: number;

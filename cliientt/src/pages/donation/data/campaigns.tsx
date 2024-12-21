@@ -32,7 +32,7 @@ async function fetchCampaigns() {
       const targetInEtherr = ethers.utils.formatEther(targett);
     
       return {
-        id: campaign.id, // Assuming `campaign.id` exists, adjust as needed
+        id: campaign.owner, // Assuming `campaign.id` exists, adjust as needed
         title: campaign.title,
         category: campaign.campaigntype,
         description: campaign.description,

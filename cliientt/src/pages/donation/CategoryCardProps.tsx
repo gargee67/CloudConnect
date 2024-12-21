@@ -1,11 +1,13 @@
 import React from 'react';
 import { GraduationCap, Heart, Lightbulb, Users } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { id } from 'ethers/lib/utils';
 
 type CategoryCardProps = {
   category: string;
   title: string;
   description: string;
+  id:string;
   icon: 'education' | 'medical' | 'startup' | 'social';
 };
 
@@ -16,7 +18,7 @@ const icons = {
   social: Users,
 };
 
-export const CategoryCard: React.FC<CategoryCardProps> = ({ category, title, description, icon }) => {
+export const CategoryCard: React.FC<CategoryCardProps> = ({ category, title, description, id, icon }) => {
   const Icon = icons[icon];
 
   return (
@@ -29,6 +31,8 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({ category, title, des
       </div>
       <h3 className="text-xl font-semibold mb-2 text-white">{title}</h3>
       <p className="text-pink-200">{description}</p>
+      <p className="text-pink-200">{id}</p>
+     
     </Link>
   );
 };

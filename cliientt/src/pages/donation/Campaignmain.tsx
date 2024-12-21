@@ -28,7 +28,9 @@ export const CampaignCard: React.FC<CampaignCardProps> = ({ campaign, onDonate }
           </div>
         </div>
         <h3 className="text-xl font-semibold mb-2 text-white">{campaign.title}</h3>
+        
         <p className="text-pink-200 mb-4">{campaign.description}</p>
+        <p className="text-pink-200 mb-4">{campaign.id}</p>
         
         <div className="mb-4">
           <div className="flex items-center justify-between mb-2">

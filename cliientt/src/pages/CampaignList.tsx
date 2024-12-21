@@ -8,10 +8,16 @@ import { Campaign } from './donation/types/index';
 export const CampaignList = () => {
   const { category } = useParams<{ category: string }>();
   const [selectedCampaign, setSelectedCampaign] = useState<Campaign | null>(null);
-console.log(campaigns, "uhuho");
-  const filteredCampaigns = category
-    ? campaigns.filter((c) => c.category === category)
-    : campaigns;
+
+  // Retrieve wallet address from localStorage
+  const walletAddress = localStorage.getItem('walletAddress');
+
+  // Filter campaigns based on category and exclude those matching the wallet address
+  const filteredCampaigns = campaigns.filter((c) => {
+    const matchesCategory = !category || c.category === category;
+    const doesNotMatchWallet = c.id !== walletAddress; // Exclude campaigns with id equal to walletAddress
+    return matchesCategory && doesNotMatchWallet;
+  });
 
   const handleDonate = (campaign: Campaign) => {
     setSelectedCampaign(campaign);
