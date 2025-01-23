@@ -1,6 +1,7 @@
 import React from 'react';
 import { Calendar, Target } from 'lucide-react';
 import { Campaign } from '../donation/types';
+import { useNavigate } from "react-router-dom";
 
 type CampaignCardProps = {
   campaign: Campaign;
@@ -8,8 +9,16 @@ type CampaignCardProps = {
 };
 
 export const CampaignCard: React.FC<CampaignCardProps> = ({ campaign, onDonate }) => {
+  const storedValue = localStorage.getItem("totalCollected");
+  const totalCollected = storedValue !== null ? parseInt(storedValue, 10) : 0;  // Default to 0 if null
   const progress = (campaign.raisedAmount / campaign.targetAmount) * 100;
+  // const targetAmount = campaign.targetAmount; // Assuming campaign.targetAmount is already a number
 
+  // Check if targetAmount is a valid number
+  //const progress = (totalCollected / targetAmount) * 100;
+  console.log("ihiouo", progress);
+  const navigate = useNavigate();
+  console.log("hihhihh", campaign);
   return (
     <div className="bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-pink-500/20 transition-all duration-300">
       <img
@@ -28,10 +37,10 @@ export const CampaignCard: React.FC<CampaignCardProps> = ({ campaign, onDonate }
           </div>
         </div>
         <h3 className="text-xl font-semibold mb-2 text-white">{campaign.title}</h3>
-        
+
         <p className="text-pink-200 mb-4">{campaign.description}</p>
         <p className="text-pink-200 mb-4">{campaign.id}</p>
-        
+
         <div className="mb-4">
           <div className="flex items-center justify-between mb-2">
             <span className="text-sm text-pink-200">Progress</span>
@@ -62,6 +71,7 @@ export const CampaignCard: React.FC<CampaignCardProps> = ({ campaign, onDonate }
 
         <button
           onClick={() => onDonate(campaign)}
+          //onClick={() => navigate(`/donate/${campaign.id}`)}
           className="w-full bg-pink-500 text-white py-2 rounded-lg hover:bg-pink-600 transition-colors duration-300"
         >
           Donate Now

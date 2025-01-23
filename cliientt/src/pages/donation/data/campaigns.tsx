@@ -2,8 +2,8 @@ import { ThirdwebSDK } from '@thirdweb-dev/sdk';
 import { ethers } from 'ethers';
 import { Campaign } from '../types'; // Ensure the Campaign type is properly imported
 
-const network = "sepolia"; 
-const contractAddress = "0x33Ab556b1AEd46b76A734A58e831c778dE93528A"; // Your actual contract address
+const network = "sepolia";
+const contractAddress = "0x180efC54F935107D3f161F887180D7F34c41B849"; // Your actual contract address
 const clientId = "371d54c8baf057be4eb906029c6456ad"; // Your actual client ID
 
 const sdk = new ThirdwebSDK(network, {
@@ -17,26 +17,27 @@ async function fetchCampaigns() {
   try {
     // Get the contract using the SDK
     const contract = await sdk.getContract(contractAddress);
-    
+
     // Fetch the campaigns from the contract
     const campaignss = await contract.call("getCampaigns");
     console.log("Campaigns:", campaignss);
-    
+
     // Map the fetched campaigns into the Campaign[] format
     campaigns = campaignss.map((campaign: any) => {
       const deadlinee = ethers.BigNumber.from(campaign.deadline._hex);
-      const deadlineTimestampp = deadlinee.toString(); 
+      const deadlineTimestampp = deadlinee.toString();
       const deadlineDatee = new Date(Number(deadlineTimestampp)).toLocaleString();
 
       const targett = ethers.BigNumber.from(campaign.target._hex);
       const targetInEtherr = ethers.utils.formatEther(targett);
-    
+      console.log("de", parseFloat(ethers.utils.formatEther(campaign.amountCollected._hex)));
+
       return {
         id: campaign.owner, // Assuming `campaign.id` exists, adjust as needed
         title: campaign.title,
         category: campaign.campaigntype,
         description: campaign.description,
-        imageUrl: campaign.imageUrl || 'https://via.placeholder.com/150', // Default image URL
+        imageUrl: campaign.image, // Default image URL// use unsplash.com for pic collection
         deadline: deadlineDatee,
         targetAmount: parseFloat(targetInEtherr),
         raisedAmount: parseFloat(ethers.utils.formatEther(campaign.amountCollected._hex)),
@@ -50,23 +51,23 @@ async function fetchCampaigns() {
 
 // Call the fetchCampaigns function to fetch and set the campaigns
 fetchCampaigns();
-    //const targetInEther = ethers.utils.formatEther(campaigns.target);
-    //const deadlineDate = new Date(Number(campaigns.deadline)).toLocaleString(); // Converts to local date and time
-    //console.log("Target Value:", campaigns.target); // Check if target is defined
+//const targetInEther = ethers.utils.formatEther(campaigns.target);
+//const deadlineDate = new Date(Number(campaigns.deadline)).toLocaleString(); // Converts to local date and time
+//console.log("Target Value:", campaigns.target); // Check if target is defined
 
-    //const exampleBigNumber = ethers.BigNumber.from(campaigns[0].target);
- //console.log(campaigns[3]);
+//const exampleBigNumber = ethers.BigNumber.from(campaigns[0].target);
+//console.log(campaigns[3]);
 // Convert BigNumber to hex string
 //const hexString = exampleBigNumber.toHexString();
 
 // Print the hex string as it is
 //console.log("Hexadecimal representation: ", hexString);
-    //const target = ethers.BigNumber.from(campaigns[0].target._hex); // 1000000000000000 Wei (1 ETH)
+//const target = ethers.BigNumber.from(campaigns[0].target._hex); // 1000000000000000 Wei (1 ETH)
 
-    //const targetInEther = ethers.utils.formatEther(target); // Converts Wei to Ether
-    
-    //console.log(`Target in Ether: ${targetInEther} ETH`);
-    //const deadline = ethers.BigNumber.from(campaigns[0].deadline._hex); // Example timestamp in BigNumber
+//const targetInEther = ethers.utils.formatEther(target); // Converts Wei to Ether
+
+//console.log(`Target in Ether: ${targetInEther} ETH`);
+//const deadline = ethers.BigNumber.from(campaigns[0].deadline._hex); // Example timestamp in BigNumber
 
 // Convert BigNumber to number (milliseconds)
 //const deadlineTimestamp = deadline.toString(); // Converts to string or use .toNumber() for direct number
@@ -76,9 +77,9 @@ fetchCampaigns();
 
 //console.log(`Target in Ether: ${targetInEther} ETH`);
 //console.log(`Deadline Date: ${deadlineDate}`);
-   /*catch (error) {
-    console.error("Error fetching campaigns:", error);
-  }
+/*catch (error) {
+ console.error("Error fetching campaigns:", error);
+}
 }
 
 fetchCampaigns();*/

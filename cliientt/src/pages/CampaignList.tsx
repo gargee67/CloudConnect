@@ -8,12 +8,13 @@ import { Campaign } from './donation/types/index';
 export const CampaignList = () => {
   const { category } = useParams<{ category: string }>();
   const [selectedCampaign, setSelectedCampaign] = useState<Campaign | null>(null);
+  const [updatedCampaigns, setUpdatedCampaigns] = useState(campaigns); // Local state for updated campaigns
 
   // Retrieve wallet address from localStorage
   const walletAddress = localStorage.getItem('walletAddress');
 
   // Filter campaigns based on category and exclude those matching the wallet address
-  const filteredCampaigns = campaigns.filter((c) => {
+  const filteredCampaigns = updatedCampaigns.filter((c) => {
     const matchesCategory = !category || c.category === category;
     const doesNotMatchWallet = c.id !== walletAddress; // Exclude campaigns with id equal to walletAddress
     return matchesCategory && doesNotMatchWallet;
@@ -24,8 +25,20 @@ export const CampaignList = () => {
   };
 
   const handleCompleteDonation = (amount: number) => {
-    alert(`Thank you for donating $${amount} to ${selectedCampaign?.title}`);
-    setSelectedCampaign(null);
+    if (selectedCampaign) {
+      // Update the raisedAmount for the selected campaign
+      const updatedCampaign = { ...selectedCampaign, raisedAmount: selectedCampaign.raisedAmount + amount };
+
+      // Update the campaign list with the updated raised amount
+      const updatedCampaignsList = updatedCampaigns.map((campaign) =>
+        campaign.id === selectedCampaign.id ? updatedCampaign : campaign
+      );
+
+      setUpdatedCampaigns(updatedCampaignsList); // Update the state of campaigns with the new raised amount
+
+      alert(`Thank you for donating $${amount} to ${selectedCampaign.title}`);
+      setSelectedCampaign(null); // Close the modal after donation
+    }
   };
 
   return (
@@ -51,7 +64,7 @@ export const CampaignList = () => {
           <DonationModal
             campaign={selectedCampaign}
             onClose={() => setSelectedCampaign(null)}
-            onDonate={handleCompleteDonation}
+          //onDonate={handleCompleteDonation} // Pass the updated onDonate logic here
           />
         )}
       </div>

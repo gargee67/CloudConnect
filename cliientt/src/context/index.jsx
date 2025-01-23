@@ -5,7 +5,7 @@ import { ethers } from 'ethers';
 const StateContext = createContext();
 
 export const StateContextProvider = ({ children }) => {
-  const { contract } = useContract('0x33Ab556b1AEd46b76A734A58e831c778dE93528A'); // Smart contract address
+  const { contract } = useContract('0x180efC54F935107D3f161F887180D7F34c41B849'); // Smart contract address
   const { mutateAsync: createCampaign } = useContractWrite(contract, 'createCampaign');
 
   const address = useAddress();
@@ -81,7 +81,7 @@ import { ethers } from 'ethers';
 const StateContext = createContext();
 
 export const StateContextProvider = ({ children }) => {
-  const { contract } = useContract('0x33Ab556b1AEd46b76A734A58e831c778dE93528A');
+  const { contract } = useContract('0x180efC54F935107D3f161F887180D7F34c41B849');
   const { mutateAsync: createCampaign } = useContractWrite(contract, 'createCampaign');
   const address = useAddress();
   const connect = useMetamask();
@@ -110,7 +110,7 @@ export const StateContextProvider = ({ children }) => {
     }
   };
 
-  const donate = async (pId, amount) => {
+  /*const donate = async (pId, amount) => {
     try {
       const data = await contract.call('donateToCampaign', [pId], {
         value: ethers.utils.parseEther(amount),
@@ -121,8 +121,32 @@ export const StateContextProvider = ({ children }) => {
       console.error('Error donating:', error);
       throw error;
     }
+  };*/
+  /*const donate = async (pId, amount, contract) => {
+    try {
+      // Call the smart contract's donateToCampaign function
+      const data = await contract.call('donateToCampaign', [pId], {
+        value: ethers.utils.parseEther(amount),
+      });
+  
+      // Fetch the updated list of donors
+      const updatedDonors = await contract.call('getDonators', [pId]);
+  
+      // Format the updated donor data
+      const formattedDonors = updatedDonors[0].map((address, index) => ({
+        address,
+        amount: parseFloat(ethers.utils.formatEther(updatedDonors[1][index])),
+      }));
+  
+      console.log('Donation successful:', data);
+      console.log('Updated Donors:', formattedDonors);
+  
+      return { transaction: data, donors: formattedDonors };
+    } catch (error) {
+      console.error('Error donating:', error);
+      throw error;
+    }
   };
-
   const getDonations = async (pId) => {
     try {
       const donations = await contract.call('getDonators', [pId]);
@@ -137,10 +161,57 @@ export const StateContextProvider = ({ children }) => {
       console.error('Error fetching donations:', error);
       throw error;
     }
-  };
+  };*/
+  const getCampaigns = async () => {
+    const campaigns = await contract.call('getCampaigns');
+
+    const parsedCampaings = campaigns.map((campaign, i) => ({
+      owner: campaign.owner,
+      title: campaign.title,
+      description: campaign.description,
+      target: ethers.utils.formatEther(campaign.target.toString()),
+      deadline: campaign.deadline.toNumber(),
+      amountCollected: ethers.utils.formatEther(campaign.amountCollected.toString()),
+      image: campaign.image,
+      pId: i
+    }));
+
+    return parsedCampaings;
+  }
+
+  const getUserCampaigns = async () => {
+    const allCampaigns = await getCampaigns();
+
+    const filteredCampaigns = allCampaigns.filter((campaign) => campaign.owner === address);
+
+    return filteredCampaigns;
+  }
+
+  const donate = async (pId, amount) => {
+    const data = await contract.call('donateToCampaign', [pId], { value: ethers.utils.parseEther(amount)});
+
+    return data;
+  }
+
+  const getDonations = async (pId) => {
+    const donations = await contract.call('getDonators', [pId]);
+    const numberOfDonations = donations[0].length;
+
+    const parsedDonations = [];
+
+    for(let i = 0; i < numberOfDonations; i++) {
+      parsedDonations.push({
+        donator: donations[0][i],
+        donation: ethers.utils.formatEther(donations[1][i].toString())
+      })
+    }
+
+    return parsedDonations;
+  }
 
   return (
-    <StateContext.Provider value={{ address, contract, connect, publishCampaign, donate, getDonations }}>
+    <StateContext.Provider value={{ address, contract, connect, publishCampaign, donate, getDonations , getCampaigns,
+        getUserCampaigns}}>
       {children}
     </StateContext.Provider>
   );

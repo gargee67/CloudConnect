@@ -2,6 +2,13 @@
 pragma solidity ^0.8.17;
 
 contract CloudFunding {
+    ////////
+    struct RegisterUser {
+        string emailId;
+        bytes32 hashedPassword; // Store hashed password
+        address walletAddress;
+    }
+    ///////
     struct Campaign {
         address owner; // The Ethereum address of the campaign creator
         string title; // The title or name of the campaign
@@ -15,7 +22,93 @@ contract CloudFunding {
         address[] donators; // An array of addresses that have donated to the campaign
         uint256[] donations; // An array of donation amounts, matching the order in `donators`
     }
+    ///////new add
+    mapping(string => bool) private emailExists; // To ensure unique emails
+    mapping(address => bool) private addressExists; // To ensure unique addresses
+    mapping(address => RegisterUser) public users; // Map wallet address to user details
+    mapping(string => address) public emailToAddress; // New mapping for email-to-wallet
+    uint public userCount;
 
+    event UserRegistered(address walletAddress, string emailId);
+    event UserLoggedIn(address walletAddress, string emailId);
+
+    constructor() {
+        userCount = 0;
+    }
+
+    // Function to register a new user
+    function registerUser(
+        string memory emailId,
+        string memory password,
+        string memory confirmPassword,
+        address walletAddress
+    ) public {
+        require(!emailExists[emailId], "Email already exists.");
+        require(
+            !addressExists[walletAddress],
+            "Wallet address already registered."
+        );
+        require(
+            keccak256(abi.encodePacked(password)) ==
+                keccak256(abi.encodePacked(confirmPassword)),
+            "Passwords do not match."
+        );
+
+        bytes32 hashedPassword = keccak256(abi.encodePacked(password));
+        users[walletAddress] = RegisterUser(
+            emailId,
+            hashedPassword,
+            walletAddress
+        );
+
+        emailExists[emailId] = true;
+        addressExists[walletAddress] = true;
+        emailToAddress[emailId] = walletAddress; // Store email-to-wallet relation
+
+        userCount++;
+        emit UserRegistered(walletAddress, emailId);
+    }
+
+    // Function for users to sign in
+    function signIn(
+        string memory emailId,
+        string memory password
+    ) public returns (bool) {
+        address walletAddress = getAddressByEmail(emailId);
+        require(walletAddress != address(0), "User not found.");
+
+        RegisterUser memory user = users[walletAddress];
+        require(
+            user.hashedPassword == keccak256(abi.encodePacked(password)),
+            "Incorrect password."
+        );
+
+        // Emit an event for successful login
+        emit UserLoggedIn(walletAddress, emailId);
+
+        return true;
+    }
+
+    // Helper function to get a wallet address by email
+    function getAddressByEmail(
+        string memory emailId
+    ) public view returns (address) {
+        return emailToAddress[emailId]; // Direct lookup by email
+    }
+
+    // Function to check if an email is already registered
+    function isEmailRegistered(
+        string memory emailId
+    ) public view returns (bool) {
+        return emailExists[emailId];
+    }
+
+    function isAddressRegistered(
+        address walletAddress
+    ) public view returns (bool) {
+        return addressExists[walletAddress];
+    }
+    //////////////////////////////
     mapping(uint256 => Campaign) public campaigns;
 
     uint256 public numberOfCampaigns = 0;

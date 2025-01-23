@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "D:\\TinDog-Start-master\\backend\\blockchain\\cloudreact\\web3\\contracts\\CloudFunding.sol": {
-      "lastModificationDate": 1731996547106,
-      "contentHash": "db82bb07b123d75c50bf40e490d4ec92",
+      "lastModificationDate": 1737573542631,
+      "contentHash": "0e01ccb7bd2b3e46bafc06b48799b3aa",
       "sourceName": "contracts/CloudFunding.sol",
       "solcConfig": {
         "version": "0.8.17",

@@ -1,21 +1,25 @@
 import React from 'react';
 import { PlusCircle, BarChart2, Calendar } from 'lucide-react';
+import { Link } from 'react-router-dom'; // Import Link from React Router
 
 const menuItems = [
   {
     icon: PlusCircle,
     title: 'Create Campaign',
     description: 'Launch a new marketing campaign',
+    path: '/create-campaign',
   },
   {
     icon: BarChart2,
     title: 'View Campaigns',
     description: 'Manage your active campaigns',
+    path: '/campaign-details',
   },
   {
     icon: Calendar,
-    title: 'Campaign Schedule',
-    description: 'Check campaign timeline',
+    title: 'Donate to Campaign',
+    description: 'Check campaign for donation',
+    path: '/donation',
   },
 ];
 
@@ -23,7 +27,8 @@ export default function MenuGrid() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
       {menuItems.map((item) => (
-        <button
+        <Link
+          to={item.path} // Use Link to navigate to the path
           key={item.title}
           className="bg-[#131313] p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow group border border-pink-500/10"
         >
@@ -34,7 +39,7 @@ export default function MenuGrid() {
             <h3 className="text-lg font-semibold text-gray-100">{item.title}</h3>
             <p className="text-gray-400">{item.description}</p>
           </div>
-        </button>
+        </Link>
       ))}
     </div>
   );

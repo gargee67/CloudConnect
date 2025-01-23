@@ -1,10 +1,13 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom';
-import { CampaignDetails, CreateCampaign, Home, Profile } from './pages';
+import {  CreateCampaign, Home, Profile } from './pages';
 import { Slidebar,Navbar} from './components';
 import { Donation } from './pages/Donation';
 import { CampaignList } from './pages/CampaignList';
 import SignUp from '../sign_up/signup';
+import DonationPage from '../src/pages/donation/DonationPage';
+import CampaignDetails from '../src/pages/CampaignDetails';
+
 
 const App = () => {
   return (
@@ -23,7 +26,8 @@ const App = () => {
           <Route path="/create-campaign" element={<CreateCampaign />} />
           <Route path="/donation" element={<Donation/>}/>
           <Route path="/campaigns/:category" element={<CampaignList/>} />
-          <Route path="/campaign-details/:id" element={<CampaignDetails />} />
+          <Route path="/campaign-details" element={<CampaignDetails />} />
+          <Route path="/donate/:campaignId" element={<DonationPage contractAddress="0x180efC54F935107D3f161F887180D7F34c41B849"/>}/>
         </Routes>
         <Navbar />
       </div>
