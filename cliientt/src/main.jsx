@@ -9,7 +9,7 @@ import App from './App';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
-  <ThirdwebProvider activeChain={11155111} clientId= "371d54c8baf057be4eb906029c6456ad"> 
+  <ThirdwebProvider activeChain={11155111} clientId= "93c44c626e33356c63b280c392819e57"> 
     <Router>
       <StateContextProvider>
         <App />

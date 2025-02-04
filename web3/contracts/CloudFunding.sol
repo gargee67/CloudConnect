@@ -20,7 +20,7 @@ contract CloudFunding {
         string campaigntype; //new add 1--
         string documentlink;
         address[] donators; // An array of addresses that have donated to the campaign
-        uint256[] donations; // An array of donation amounts, matching the order in `donators`
+        uint256[] donations; // An array of donation amounts, matching the order in donators
     }
     ///////new add
     mapping(string => bool) private emailExists; // To ensure unique emails
@@ -32,7 +32,7 @@ contract CloudFunding {
     event UserRegistered(address walletAddress, string emailId);
     event UserLoggedIn(address walletAddress, string emailId);
 
-    constructor() {
+    constructor(){
         userCount = 0;
     }
 
@@ -187,5 +187,5 @@ contract CloudFunding {
         }
 
         return allCampaigns;
-    }
+    }
 }
