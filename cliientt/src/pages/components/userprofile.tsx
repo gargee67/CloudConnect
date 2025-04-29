@@ -87,7 +87,10 @@ export default function UserProfile({ username, accountId }: UserProfileProps) {
 
     fetchBalance();
   }, [walletAddress]);
-
+  const shortenAddress = (walletAddress: string | any[]) => {
+    if (!walletAddress) return "";
+    return `${walletAddress.slice(0, 6)}...${walletAddress.slice(-4)}`;
+  };
   return (
     <div className="space-y-4">
       <div className="flex items-center space-x-4">
@@ -103,7 +106,7 @@ export default function UserProfile({ username, accountId }: UserProfileProps) {
         </div>
       </div>
       <div className="space-y-4">
-        <ProfileItem icon={User} label="Account ID" value={walletAddress} />
+        <ProfileItem icon={User} label="Account ID" value={shortenAddress(walletAddress)} />
         <ProfileItem icon={Wallet} label="Balance" value={balance} />
         <ProfileItem icon={Mail} label="Email" value={userEmail} />
       </div>

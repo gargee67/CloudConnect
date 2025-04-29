@@ -32,22 +32,9 @@ const Navbar = () => {
           {address ? 'Create a campaign' : 'Connect'}
         </button>
 
-        {address && (
-          <button
-            type="button"
-            className="py-2 px-4 rounded bg-[#e74c3c] text-white"
-            onClick={disconnect}
-          >
-            Disconnect
-          </button>
-        )}
+       
 
-        <Link to="/profile">
-          <div className="w-[52px] h-[52px] rounded-full bg-[#2c2f32] flex justify-center items-center cursor-pointer">
-            {/* Profile avatar or icon */}
-            <span className="text-white">P</span>
-          </div>
-        </Link>
+       
       </div>
     </div>
   );

@@ -144,9 +144,14 @@ contract CloudFunding {
         return numberOfCampaigns - 1;
     }
 
+    /*event DonationReceived(
+        uint256 indexed campaignId,
+        address donor,
+        uint256 amount
+    );
+
     function donateToCampaign(uint256 _id) public payable {
         uint256 amount = msg.value;
-
         Campaign storage campaign = campaigns[_id];
 
         campaign.donators.push(msg.sender);
@@ -155,10 +160,35 @@ contract CloudFunding {
         (bool sent, ) = payable(campaign.owner).call{value: amount}("");
 
         if (sent) {
-            campaign.amountCollected = campaign.amountCollected + amount;
+            campaign.amountCollected += amount;
+            emit DonationReceived(_id, msg.sender, amount);
+        } else {
+            revert("Transfer failed");
         }
     }
+*/
+    // Define the DonationReceived event
+    event DonationReceived(uint256 campaignId, address donor, uint256 amount);
 
+    function donateToCampaign(uint256 _id) public payable {
+        uint256 amount = msg.value;
+        Campaign storage campaign = campaigns[_id]; // Get the campaign by ID
+
+        // Add the donator to the donators list and donation to donations list
+        campaign.donators.push(msg.sender);
+        campaign.donations.push(amount);
+
+        // Send the funds directly to the campaign owner (not the contract)
+        (bool sent, ) = payable(campaign.owner).call{value: amount}("");
+
+        // Check if the transfer was successful
+        if (sent) {
+            campaign.amountCollected += amount; // Update the total collected
+            emit DonationReceived(_id, msg.sender, amount); // Emit event
+        } else {
+            revert("Transfer failed");
+        }
+    }
     function getDonators(
         uint256 _id
     ) public view returns (address[] memory, uint256[] memory) {

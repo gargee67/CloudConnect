@@ -3,7 +3,7 @@ import { ethers } from 'ethers';
 import { Campaign } from '../types'; // Ensure the Campaign type is properly imported
 
 const network = "sepolia";
-const contractAddress = "0x180efC54F935107D3f161F887180D7F34c41B849"; // Your actual contract address
+const contractAddress = "0x825fd52b432e6AeD5Eb5b098AE0A618ea3Dc006a"; // Your actual contract address
 const clientId = "371d54c8baf057be4eb906029c6456ad"; // Your actual client ID
 
 const sdk = new ThirdwebSDK(network, {
@@ -44,6 +44,9 @@ async function fetchCampaigns() {
         documentUrl: campaign.documentlink || '#', // Default link if not provided
       };
     });
+    const campaigncount = campaigns.length;
+    localStorage.setItem("campaigns", campaigncount.toString());
+
   } catch (error) {
     console.error("Error fetching campaigns:", error);
   }
