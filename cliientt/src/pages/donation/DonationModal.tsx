@@ -429,13 +429,12 @@ export const DonationModal: React.FC<DonationModalProps> = ({ campaign, onClose 
   const [showThankYou, setShowThankYou] = useState(false);
   const [transactionHash, setTransactionHash] = useState<string | null>(null);
   const [donorData, setDonorData] = useState<
-    { address: string; amount: number; timestamp: string }[]
+    { address: string; amount: number; transactionHash?: string }[]
   >([]);
 
   const presetAmounts = [0.01, 0.02, 0.03, 0.04];
   const contractAddress = "0x825fd52b432e6AeD5Eb5b098AE0A618ea3Dc006a";
   const { contract } = useContract(contractAddress);
-  console.log("letssee", campaign.id);
   const { data: donators, refetch: fetchDonators } = useContractRead(contract, "getDonators", [campaign.id]);
   const { mutateAsync: donateToCampaign } = useContractWrite(contract, "donateToCampaign");
 
@@ -448,7 +447,6 @@ export const DonationModal: React.FC<DonationModalProps> = ({ campaign, onClose 
         const formattedData = addresses.map((address, index) => ({
           address,
           amount: parseFloat(ethers.utils.formatEther(amounts[index])),
-          timestamp: new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString(),
         }));
 
         setDonorData(formattedData);
@@ -459,16 +457,7 @@ export const DonationModal: React.FC<DonationModalProps> = ({ campaign, onClose 
   }, [donators]);
 
   useEffect(() => {
-    if (showThankYou) {
-      const timer = setTimeout(() => {
-        setShowThankYou(false);
-        setAmount("");
-        setTransactionHash(null);
-      }, 3000);
-
-      // Clean up the timeout if the component is unmounted or showThankYou is set to false early
-      return () => clearTimeout(timer);
-    }
+    return () => {}; 
   }, [showThankYou]);
 
   const handleDonate = async () => {
@@ -485,19 +474,18 @@ export const DonationModal: React.FC<DonationModalProps> = ({ campaign, onClose 
         overrides: { value: ethers.utils.parseEther(amount) },
       });
 
-      setTransactionHash(transactionResponse.receipt.transactionHash);
+      const txHash = transactionResponse.receipt.transactionHash;
+      setTransactionHash(txHash);
 
       setShowThankYou(true);
       await fetchDonators();
 
-      const currentTimestamp = new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString();
-
       setDonorData((prevDonors) => [
         ...prevDonors,
         {
-          address: "0xYourAddress", // Replace with donor address
+          address: "0xYourAddress", 
           amount: parseFloat(amount),
-          timestamp: currentTimestamp,
+          transactionHash: txHash
         },
       ]);
 
@@ -516,6 +504,7 @@ export const DonationModal: React.FC<DonationModalProps> = ({ campaign, onClose 
 
   const totalCollected = donorData.reduce((sum, donor) => sum + donor.amount, 0);
   localStorage.setItem("totalCollected", totalCollected.toString());
+
   return (
     <div className="absolute inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
       <div className="bg-gray-800 rounded-xl max-w-[600px] w-full p-6 relative max-h-[90vh] overflow-y-auto scrollbar-hide">
@@ -528,7 +517,13 @@ export const DonationModal: React.FC<DonationModalProps> = ({ campaign, onClose 
         </h3>
 
         {showThankYou ? (
-          <div className="text-center py-8">
+          <div className="text-center py-8 relative">
+            <button 
+              onClick={() => setShowThankYou(false)} 
+              className="absolute right-0 top-0 text-pink-200 hover:text-pink-100"
+            >
+              <X className="w-6 h-6" />
+            </button>
             <div className="text-pink-400 text-2xl mb-2">❤️</div>
             <h4 className="text-xl font-semibold text-white mb-2">Thank You!</h4>
             <p className="text-pink-200">Your generous donation will make a difference.</p>
@@ -616,7 +611,6 @@ export const DonationModal: React.FC<DonationModalProps> = ({ campaign, onClose 
                 >
                   <div>
                     <div className="text-pink-200 font-medium">{formatAddress(address)}</div>
-
                   </div>
                   <div className="text-white font-medium">{amount.toFixed(4)} ETH</div>
                 </div>
@@ -830,8 +824,8 @@ export const DonationModal: React.FC<DonationModalProps> = ({ campaign, onClose 
                       type="button"
                       onClick={() => setAmount(preset.toString())}
                       className={`py-2 rounded-lg transition-all ${amount === preset.toString()
-                          ? "bg-pink-600 text-white shadow-md"
-                          : "bg-gray-700 text-pink-200 hover:bg-gray-600"
+                        ? "bg-pink-600 text-white shadow-md"
+                        : "bg-gray-700 text-pink-200 hover:bg-gray-600"
                         }`}
                     >
                       {preset}

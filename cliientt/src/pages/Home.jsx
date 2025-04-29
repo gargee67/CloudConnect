@@ -50,19 +50,19 @@ const Home = () => {
 }
 export default Home
 */
-import React from 'react';
-import Navbar from '../pages/components/navbar';
-import UserProfile from '../pages/components/userprofile';
-import AccountActions from '../pages/components/accountactions';
-import DashboardStats from '../pages/components/dashboardstat';
-import MenuGrid from '../pages/components/menugrid';
-import { TrendingUp } from 'lucide-react';
+import React from "react";
+import Navbar from "../pages/components/navbar";
+import UserProfile from "../pages/components/userprofile";
+import AccountActions from "../pages/components/accountactions";
+import DashboardStats from "../pages/components/dashboardstat";
+import MenuGrid from "../pages/components/menugrid";
+import { TrendingUp } from "lucide-react";
 
 const Home = () => {
   const mockUser = {
     username: "John Doe",
     accountId: "0x1234...5678",
-    balance: "1,234 USDT"
+    balance: "1,234 USDT",
   };
 
   return (
@@ -74,18 +74,20 @@ const Home = () => {
       </div>
 
       <Navbar />
-      
+
       <div className="container mx-auto px-4 pt-16 grid grid-cols-12 gap-6 relative z-10">
-        <aside className="col-span-3 bg-[#1313131a] backdrop-blur-lg border border-pink-500/20 
+        <aside
+          className="col-span-3 bg-[#1313131a] backdrop-blur-lg border border-pink-500/20 
                           rounded-2xl p-6 space-y-6 
                           hover:shadow-[0_0_30px_rgba(236,72,153,0.3)] 
-                          transition-all duration-300">
+                          transition-all duration-300"
+        >
           <UserProfile {...mockUser} />
           <div className="border-t border-pink-500/20 pt-6">
             <AccountActions />
           </div>
         </aside>
-        
+
         <main className="col-span-9 space-y-8">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
@@ -97,12 +99,12 @@ const Home = () => {
           </div>
 
           <DashboardStats totalCampaigns={12} />
-          
+
           <MenuGrid />
         </main>
       </div>
     </div>
   );
-}
+};
 
 export default Home;

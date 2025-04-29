@@ -21,9 +21,7 @@
                 "evm.methodIdentifiers",
                 "metadata"
               ],
-              "": [
-                "ast"
-              ]
+              "": ["ast"]
             }
           }
         },
@@ -41,12 +39,8 @@
         }
       },
       "imports": [],
-      "versionPragmas": [
-        "^0.8.17"
-      ],
-      "artifacts": [
-        "CloudFunding"
-      ]
+      "versionPragmas": ["^0.8.17"],
+      "artifacts": ["CloudFunding"]
     }
   }
 }

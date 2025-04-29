@@ -86,10 +86,10 @@ export const Donation = () => {
 
 export default Donation;
 */
-import React from 'react';
-import { Search, Target, FileText, Users } from 'lucide-react';
-import { CategoryCard } from '../pages/donation/CategoryCardProps';
-import '../index.css';
+import React from "react";
+import { Search, Target, FileText, Users } from "lucide-react";
+import { CategoryCard } from "../pages/donation/CategoryCardProps";
+import "../index.css";
 
 export const Donation = () => {
   const categories = [
@@ -97,26 +97,26 @@ export const Donation = () => {
       category: "education",
       title: "Education",
       description: "Support students and educational initiatives",
-      icon: "education"
+      icon: "education",
     },
     {
       category: "medical",
       title: "Medical Emergency",
       description: "Help those in urgent medical need",
-      icon: "medical"
+      icon: "medical",
     },
     {
       category: "startup",
       title: "Startups",
       description: "Fund innovative business ideas",
-      icon: "startup"
+      icon: "startup",
     },
     {
       category: "social",
       title: "Social Cause",
       description: "Support community and social projects",
-      icon: "social"
-    }
+      icon: "social",
+    },
   ];
 
   return (
@@ -134,10 +134,7 @@ export const Donation = () => {
         </h1>
 
         <div className="max-w-3xl mx-auto mb-16">
-          <div className="relative shadow-2xl">
-            
-           
-          </div>
+          <div className="relative shadow-2xl"></div>
         </div>
 
         <section>
@@ -168,11 +165,14 @@ export const Donation = () => {
 
         <div className="text-center mt-16">
           <p className="text-xl text-gray-300 max-w-2xl mx-auto mb-8 leading-relaxed">
-            Every contribution creates ripples of change. Join our community of compassionate donors.
+            Every contribution creates ripples of change. Join our community of
+            compassionate donors.
           </p>
           <div className="flex items-center justify-center space-x-4">
             <Users className="text-pink-500 w-8 h-8" />
-            <span className="text-lg text-gray-400">1,000+ Donors Making a Difference</span>
+            <span className="text-lg text-gray-400">
+              1,000+ Donors Making a Difference
+            </span>
           </div>
         </div>
       </div>
