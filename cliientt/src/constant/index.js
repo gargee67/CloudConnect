@@ -6,7 +6,7 @@ export const navlinks = [
     imgUrl: dashboard,
     link: '/',
   },
-  /*{
+  /*{`
     name: 'campaign',
     imgUrl: createCampaign,
     link: '/create-campaign',
