@@ -5,7 +5,7 @@ import { ethers } from 'ethers';
 const StateContext = createContext();
 
 export const StateContextProvider = ({ children }) => {
-  const { contract } = useContract('0x825fd52b432e6AeD5Eb5b098AE0A618ea3Dc006a'); // Smart contract address
+  const { contract } = useContract(''); // Smart contract address
   const { mutateAsync: createCampaign } = useContractWrite(contract, 'createCampaign');
 
   const address = useAddress();
@@ -87,7 +87,7 @@ const StateContext = createContext();
 
 export const StateContextProvider = ({ children }) => {
   const { contract } = useContract(
-    "0x825fd52b432e6AeD5Eb5b098AE0A618ea3Dc006a"
+    "0xd804d0ffbee61923726d69B10615d30Fdc0bD2Bf"
   );
   const { mutateAsync: createCampaign } = useContractWrite(
     contract,
