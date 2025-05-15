@@ -20,7 +20,7 @@ type DonationModalProps = {
   onClose: () => void;
 };
 
-const CONTRACT_ADDRESS = "0x825fd52b432e6AeD5Eb5b098AE0A618ea3Dc006a";
+const CONTRACT_ADDRESS = "0x2d2674C376025C06754EAcc5b1F12A076839E153";
 const PRESET_AMOUNTS = [0.01, 0.02, 0.03, 0.04];
 
 export const DonationModal: React.FC<DonationModalProps> = ({ campaign, onClose }) => {
@@ -30,7 +30,7 @@ export const DonationModal: React.FC<DonationModalProps> = ({ campaign, onClose 
   const [transactionHashes, setTransactionHashes] = useState<string[]>([]);
   const [donorData, setDonorData] = useState<Donor[]>([]);
   const userAddress = useAddress();
-  const [starCount, setStarCount] = useState<number>(0);
+  const [starCount, setStarCount] = useState(0);
 
 
   const { contract } = useContract(CONTRACT_ADDRESS);
@@ -61,24 +61,27 @@ export const DonationModal: React.FC<DonationModalProps> = ({ campaign, onClose 
   }, [donators]);
   useEffect(() => {
     const fetchUserStars = async () => {
-      if (userAddress) {
-        console.log("Updated Star Count:", starCount);
+      if (!userAddress) return;
+
+      try {
         const { data, error } = await supabase
           .from("donor_stars")
           .select("stars")
           .eq("address", userAddress)
           .single();
 
-        if (error) {
-          console.error("Error fetching user stars:", error.message);
-        } else if (data) {
-          setStarCount(data.stars);
+        if (data) {
+          setStarCount(data.stars || 0)
+          console.log("Updated Star Count:", data.stars);
         }
+      } catch (err) {
+        console.error("Unexpected error fetching stars:", err);
       }
     };
 
     fetchUserStars();
   }, [userAddress]);
+
 
   useEffect(() => {
     if (showThankYou) {
@@ -143,15 +146,15 @@ export const DonationModal: React.FC<DonationModalProps> = ({ campaign, onClose 
           .eq("address", userAddress)
           .single();
 
-        const newStars = existingEntry ? existingEntry.stars + 1 : 1;
+        const newStars = (existingEntry?.stars || 0) + 1;
 
-        const { error: upsertError } = await supabase
+        await supabase
           .from("donor_stars")
-          .upsert([{ address: userAddress, stars: newStars }]);
+          .upsert({ address: userAddress, stars: newStars }, {
+            onConflict: 'address'
+          });
 
-        if (upsertError) {
-          console.error("Error updating star count:", upsertError.message);
-        }
+
 
         setStarCount(newStars);
       } catch (err) {

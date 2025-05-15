@@ -21,7 +21,7 @@ const CampaignDetails: React.FC = () => {
         }
     }, [updatedCampaigns, walletAddress]);
 
-    const contractAddress = "0x825fd52b432e6AeD5Eb5b098AE0A618ea3Dc006a";
+    const contractAddress = "0x2d2674C376025C06754EAcc5b1F12A076839E153";
     const { contract } = useContract(contractAddress);
     const { data: donators } = useContractRead(contract, "getDonators", [walletAddress]);
 
@@ -175,7 +175,7 @@ const CampaignDetails: React.FC = () => {
         }
     }, [updatedCampaigns, walletAddress]);
 
-    const contractAddress = "0x825fd52b432e6AeD5Eb5b098AE0A618ea3Dc006a";
+    const contractAddress = "0x2d2674C376025C06754EAcc5b1F12A076839E153";
     const { contract } = useContract(contractAddress);
 
     // Fetch donors for each campaign
@@ -294,7 +294,7 @@ const CampaignDetails: React.FC = () => {
                                         <th className="px-6 py-3 text-left">Campaign ID</th>
                                         <th className="px-6 py-3 text-left">Donor Address</th>
                                         <th className="px-6 py-3 text-left">Amount (ETH)</th>
-                                        <th className="px-6 py-3 text-left">Timestamp</th>
+
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -306,7 +306,7 @@ const CampaignDetails: React.FC = () => {
                                             <td className="px-4 py-2">{donor.campaignId}</td>
                                             <td className="px-4 py-2">{donor.address}</td>
                                             <td className="px-4 py-2">{donor.amount}</td>
-                                            <td className="px-4 py-2">{donor.timestamp}</td>
+
                                         </tr>
                                     ))}
                                 </tbody>

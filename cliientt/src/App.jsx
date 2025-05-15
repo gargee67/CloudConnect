@@ -25,7 +25,7 @@ const App = () => {
           <Route
             path="/donate/:campaignId"
             element={
-              <DonationPage contractAddress="0x825fd52b432e6AeD5Eb5b098AE0A618ea3Dc006a" />
+              <DonationPage contractAddress="0x2d2674C376025C06754EAcc5b1F12A076839E153" />
             }
           />
         </Routes>

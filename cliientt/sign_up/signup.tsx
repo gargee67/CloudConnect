@@ -25,7 +25,7 @@ function SignUp() {
   };
 
   // Initialize Thirdweb contract instance
-  const { contract } = useContract('0x825fd52b432e6AeD5Eb5b098AE0A618ea3Dc006a
+  const { contract } = useContract('0x2d2674C376025C06754EAcc5b1F12A076839E153
   '); // Replace with your contract address
 
   // Get the connected wallet address using Thirdweb's hook
@@ -272,7 +272,7 @@ function SignUp() {
   });
 
   const navigate = useNavigate();
-  const { contract } = useContract('0x825fd52b432e6AeD5Eb5b098AE0A618ea3Dc006a');
+  const { contract } = useContract('0x2d2674C376025C06754EAcc5b1F12A076839E153');
   const address = useAddress();
 
   useEffect(() => {

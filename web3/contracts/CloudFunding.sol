@@ -32,7 +32,7 @@ contract CloudFunding {
     event UserRegistered(address walletAddress, string emailId);
     event UserLoggedIn(address walletAddress, string emailId);
 
-    constructor(){
+    constructor() {
         userCount = 0;
     }
 
@@ -217,5 +217,5 @@ contract CloudFunding {
         }
 
         return allCampaigns;
-    }
+    }
 }
