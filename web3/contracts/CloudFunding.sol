@@ -32,7 +32,12 @@ contract CloudFunding {
     event UserRegistered(address walletAddress, string emailId);
     event UserLoggedIn(address walletAddress, string emailId);
 
+<<<<<<< HEAD
     constructor() {
+=======
+    constructor(){
+        
+>>>>>>> 6d8e48965ddf58479544ac960d9387031cae47ea
         userCount = 0;
     }
 
